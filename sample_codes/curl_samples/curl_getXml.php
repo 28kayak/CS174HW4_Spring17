@@ -52,7 +52,8 @@ function call_lookup_stockAPI($url)
         echo $xml->LookupResult->Symbol ."<br>";
         $xml->asXML("test.xml");
 
-        return $xml;
+
+        return $result;
 
     }
     else{
@@ -72,9 +73,14 @@ function call_lookup_stockAPI($url)
 //echo "hello world<br>";
 $uri = "http://dev.markitondemand.com/MODApis/Api/v2/Lookup/xml?input=APPL";
 $data = call_lookup_stockAPI($uri);
+$xml1 = simplexml_load_string($data);
 echo "<br>data <br>";
 
-echo $data;
+echo "<br> show xml out side of function <br>";
+$list = $xml1->getName();
+echo $xml1->getName() ."<br>";
+echo $xml1->LookupResult->Symbol ."<br>";
+
 
 //echo "<pre>".$data."</pre>";
 //$xml = new SimpleXMLElement($data);
