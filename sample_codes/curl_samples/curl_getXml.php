@@ -75,8 +75,27 @@ $uri = "http://dev.markitondemand.com/MODApis/Api/v2/Lookup/xml?input=APPL";
 $data = call_lookup_stockAPI($uri);
 $xml1 = simplexml_load_string($data);
 echo "<br>data <br>";
+foreach ($xml1->LookupResult as $item)
+{
+    echo "Compnay name " .$item->Name ."<br>";
+}
 
+
+
+/*$doc = new DOMDocument();
+
+$xmlDoc = $doc->loadXML($data);
+$xmlDoc = $xmlDoc->saveXML();
+$x = $xmlDoc->documentElement;
+echo $x;
+foreach ($x->childNodes AS $item) {
+    print $item->nodeName . " = " . $item->nodeValue . "<br>";
+}
+
+*/
 echo "<br> show xml out side of function <br>";
+echo htmlspecialchars($xml1);
+
 $list = $xml1->getName();
 echo $xml1->getName() ."<br>";
 echo $xml1->LookupResult->Symbol ."<br>";

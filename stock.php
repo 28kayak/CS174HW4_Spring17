@@ -47,16 +47,10 @@ if(isset($_GET["company"]) )
     if ($_GET["company"] != "")
     {
         $comp_name = $_GET["company"];
-        echo $comp_name . "is a company name <br>";
+        echo $comp_name . " is a company name <br>";
         $lookup_url = "http://dev.markitondemand.com/MODApis/Api/v2/Lookup/xml?input=".$comp_name;
         echo "URL: ".$lookup_url."<br>";
-
-
-
-
-
-
-
+        $result = call_lookup_stockAPI($lookup_url);
 
     }
     else
@@ -68,7 +62,8 @@ if(isset($_GET["company"]) )
         </script>
 <?php
     }
-}
+
+}//if(isset())
 
 
 ?>
