@@ -21,7 +21,6 @@ function call_lookup_stockAPI($url)
 $curl = curl_init($url);
 //sett up curl's options using option array
 $options = array(
-//header => false, result of curl does not contain http-header
 CURLOPT_HEADER => false,
 CURLOPT_HTTPGET => true,
 CURLOPT_RETURNTRANSFER => true
@@ -209,8 +208,7 @@ if(isset($_GET['get_moreInfo']))
     }//if($quote_json["status"])
     else{
         //in the case: the query for more Info fails
-
-
+        echo "<h1>Unable to get more information</h1>>";
     }
 
 
@@ -283,7 +281,7 @@ else{
 </head>
 <body>
 <div class="container">
-
+    <h1>Stock Search</h1>
     <form action="stock.php" method="get" class="stock-form">
         Company Name Or Symbol:
         <input type="text" name="company">
@@ -316,7 +314,7 @@ else{
             else
             {
                 //document.getElementById("result").innerHTML="<b>タグ</b>を含む書換え";
-                document.getElementById("result").innerHTML="Changed";
+                document.getElementById("result").innerHTML="Changed 111";
             }
         }
     }
