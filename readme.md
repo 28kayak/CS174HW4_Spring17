@@ -1,25 +1,44 @@
-#CS174 HW4 
+# CS 174 HW4 
+## Stock Search 
 
-## How To Run
-access to:
+### Demonstratioin 
+Access to https://stock-search-cs174.herokuapp.com/
+#### Descprition 
+`stock.php` --->the entire application for stock search 
+`Sample Data` ---> contains sample data which are retuned from http://dev.markitondemand.com/MODApis/ 
 
-or 
-* [Click] - HTML enhanced for web apps!
+`sample_codes` --> contains unit test functions for php and html 
+ |--- `Curl_Sample` --> contains codes for calls resutful api using php 
+ |--- `html_sample` --> contains html sample code for making table 
+ |--- `xml_sample` --> contains codes for xml manipulation using php
+ Note: some of them are not working.
+ 
+ EC2.txt --> information about EC2 Connection 
+ composer.json --> needed to deploy to heroku 
+ index.css --> css for index.html which is no longer used 
+ index.html--> the inital page of html (no longer used)
 
-[//]: # (These are reference links used in the body of this note and get stripped out when the markdown processor does its job. There is no need to format nicely because it shouldn't be seen. Thanks SO - http://stackoverflow.com/questions/4823468/store-comments-in-markdown-syntax)
+ #### Tech
+ - PHP 
+ - heroku
+ - Git 
+ - Php Storm 
+ - AWS (not ready yet)
 
 
 
-   [dill]: <https://github.com/joemccann/dillinger>
-   [git-repo-url]: <https://github.com/joemccann/dillinger.git>
-   [john gruber]: <http://daringfireball.net>
-   [df1]: <http://daringfireball.net/projects/markdown/>
-   [markdown-it]: <https://github.com/markdown-it/markdown-it>
-   [Ace Editor]: <http://ace.ajax.org>
-   [node.js]: <http://nodejs.org>
-   [Twitter Bootstrap]: <http://twitter.github.com/bootstrap/>
-   [jQuery]: <http://jquery.com>
-   [@tjholowaychuk]: <http://twitter.com/tjholowaychuk>
-   [express]: <http://expressjs.com>
-   [Click]: <http://angularjs.org>
-   [Gulp]: <http://gulpjs.com>
+  
+
+
+
+
+
+
+### Todos
+
+ - Make nicer html look
+ - Refactoring 
+
+
+
+
