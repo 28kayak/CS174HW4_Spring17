@@ -53,11 +53,14 @@ function form_html_table($xml)
             padding: 5px;
             text-align: left;
         }
+        caption{
+            font-size: 30px;
+        }
     </style>
 
     <?php
-    $table = '<div id="result">';
-    $table .= '<table style=\"width:100%;\">'
+   // $table = '<div id="result">';
+    $table = '<table style=\"width:100%;\">'
         .'<caption>Result of '.$_GET['company'].' '.'</caption>';
     $table .= '<tr>
         <th>Symbol</th>
@@ -75,7 +78,6 @@ function form_html_table($xml)
             <th>".$item->Symbol." </th>".
             "<th>".$item->Name."</th>".
             "<th>".$item->Exchange."</th>".
-            //"<th> <a href=\"?get_moreInfo=\".$item->Symbol.'>More Info</a>';
             "<th>".
             '<a href='.$href.'> More Info</a>'.
             "</th>";
@@ -90,20 +92,94 @@ function form_html_table($xml)
 }
 
 /**
- *
+ *function: make_table_by_Json
+ * precondition : $json is not NULL  AND the status of response is "SUCCESS"
+ *@param : $json is a quote information json from Market on Demand
+ * @return : well-formed html string
  */
 function make_table_by_Json($json)
 {
-    echo "In function <br>";
-    echo "<br>";
-    echo $json["Symbol"];
-    echo "<br>";
-    echo $json["LastPrice"];
-    echo "<br>";
-    echo $json["Change"];
-    echo "<br>";
+    ?>
+    <!-- CSS for HTML Table-->
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 5px;
+            text-align: left;
+        }
+        caption{
+            font-size: 30px;
+        }
+    </style>
 
-}
+    <?php
+   // $table = '<div id="result">';
+    $table = '<table style=\"width:100%;\">'
+        .'<caption>For Additional Information </caption>';
+    $table .= '<tr>
+        <th>Description</th>
+        <th>Data</th>
+    </tr>';
+    $table .= ' <tr>
+        <th>Name</th>
+        <th>'. $json["Name"] . '</th>
+    </tr>';
+    $table .= ' <tr>
+        <th>Symbol</th>
+        <th>'. $json["Symbol"] . '</th>
+    </tr>';
+    $table .= ' <tr>
+        <th>Last Price</th>
+        <th>'. $json["LastPrice"] . '</th>
+    </tr>';
+    $table .= ' <tr>
+        <th>Change</th>
+        <th>'. $json["Change"] . '</th>
+    </tr>';
+    $table .= ' <tr>
+        <th>Change Percent</th>
+        <th>'. $json["ChangePercent"] . '</th>
+    </tr>';
+    $table .= ' <tr>
+        <th>TimeStamp</th>
+        <th>'. $json["Timestamp"] . '</th>
+    </tr>';
+    $table .= ' <tr>
+        <th>Market Cap</th>
+        <th>'. $json["MarketCap"] . '</th>
+    </tr>';
+    $table .= ' <tr>
+        <th>Volume</th>
+        <th>'. $json["Volume"] . '</th>
+    </tr>';
+    $table .= ' <tr>
+        <th>Change YID</th>
+        <th>'. $json["ChangeYTD"] . '</th>
+    </tr>';
+    $table .= ' <tr>
+        <th>Change Percent YID</th>
+        <th>'. $json["ChangePercentYTD"] . '</th>
+    </tr>';
+    $table .= ' <tr>
+        <th>High</th>
+        <th>'. $json["High"] . '</th>
+    </tr>';
+    $table .= ' <tr>
+        <th>Low</th>
+        <th>'. $json["Low"] . '</th>
+    </tr>';
+    $table .= ' <tr>
+        <th>Open</th>
+        <th>'. $json["Open"] . '</th>
+    </tr>';
+    //$table .= "</div>";
+
+    return $table;
+
+}//make_table_by_Json
 /**
  * main
  */
@@ -112,22 +188,39 @@ if(isset($_GET['get_moreInfo']))
     $request_comp = $_GET["get_moreInfo"];
     $query = "http://dev.markitondemand.com/MODApis/Api/v2/Quote/json?symbol=".$request_comp;
     echo $query."<br>";
-    $result = call_lookup_stockAPI($query);
+    $quote = call_lookup_stockAPI($query);
     //var_dump($result);
-    $json = json_decode($result, true);
-    echo $result;
-    echo $json["Name"];
-    make_table_by_Json($json);
-
+    $quote_json = json_decode($quote, true);
+    //echo $quote;
+    if($quote_json["Status"] === "SUCCESS")
+    {
+        echo "Retuned Status" .$quote_json["Status"]."<br>";
+        $table_format = make_table_by_Json($quote_json);
+        echo $table_format;
 
 
     ?>
 
+    <script>
+
+       document.getElementById("result").innerHTML="<?php echo $table_format ?>";
+    </script>
     <?php
+    }//if($quote_json["status"])
+    else{
+        //in the case: the query for more Info fails
+
+
+    }
 
 
 
-}
+
+
+
+
+
+}//if(isset($_get["get_moreInfo"]))
 else{
     if(isset($_GET["company"]) )
     {
@@ -146,6 +239,7 @@ else{
             {
                 //succeeded to parse xml with SimpleXMLElement
                 $result = form_html_table($xml);
+
                 echo $result;
                 ?>
                     <script>
