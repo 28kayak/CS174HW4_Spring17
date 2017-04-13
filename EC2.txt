@@ -1,0 +1,16 @@
+Public DNS: ec2-34-210-57-7.us-west-2.compute.amazonaws.com
+IPv4 Public IP
+34.210.57.7
+
+ssh: ec2-user@ec2-34-210-57-7.us-west-2.compute.amazonaws.com
+
+
+Access Command from AWS-key dir
+ssh -i cs174.pem ec2-user@ec2-34-210-57-7.us-west-2.compute.amazo
+naws.com
+
+
+Access via web-browser
+http://ec2-34-210-57-7.us-west-2.compute.amazonaws.com
+
+http://ec2-34-210-57-7.us-west-2.compute.amazonaws.com ==> /var/www/html in AWS

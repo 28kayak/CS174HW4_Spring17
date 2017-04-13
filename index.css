@@ -1,0 +1,20 @@
+.stock-form{
+    margin: 50% auto;
+}
+.container {
+    margin-top: 250px;
+    margin: 0 auto;
+    width:250px;
+}
+.container input {
+    width: 50%;
+    clear: both;
+}
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 5px;
+    text-align: left;
+}

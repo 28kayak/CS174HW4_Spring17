@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Stock Search</title>
+
+    <link rel="stylesheet" type="text/css" href="index.css">
+
+</head>
+<body>
+<div class="container">
+
+<form action="stock.php" method="get" class="stock-form">
+    Company Name Or Symbol:
+    <input type="text" name="company">
+    <br>
+    <input type="submit" name="search" value="Serach">Search</input>
+    <input type="button" name="clear" value="clear" onclick="clear()">Clear</input>
+
+
+</form>
+</div>
+<div id="result">
+
+</div>
+<script>
+    function clear()
+    {
+        document.getElementById("result").innerHTML = "changed";
+        console.log(document.getElementById("result"));
+
+
+    }
+
+</script>
+</body>
+</html>
