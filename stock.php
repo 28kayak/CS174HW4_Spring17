@@ -5,76 +5,35 @@
  * Date: 3/25/2017
  * Time: 12:48 AM
  */
-?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Stock Search</title>
 
-    <link rel="stylesheet" type="text/css" href="index.css">
-
-</head>
-<body>
-<div class="container">
-
-<form action="stock.php" method="get" class="stock-form">
-Company Name Or Symbol:
-    <input type="text" name="company">
-    <br>
-    <input type="submit" name="search" value="Serach">Search</input>
-    <input type="button" name="clear" value="clear" onclick="clear()">Clear</input>
-
-
-</form>
-</div>
-<div id="result">
-
-</div>
-<script>
-    function clear()
-    {
-        document.getElementById("result").innerHTML = "changed";
-        console.log(document.getElementById("result"));
-
-
-    }
-
-</script>
-</body>
-</html>
-<?php
 /**
- * function: call lookup stock API
- * this function calls API from http://dev.markitondemand.com/MODApis/#interactive
- * whose function is Company Lookup API
- *
- * @param $url = URL to access to the Company Lookup API
- * @return well-formed xml String type
- */
+* function: call lookup stock API
+* this function calls API from http://dev.markitondemand.com/MODApis/#interactive
+* whose function is Company Lookup API
+*
+* @param $url = URL to access to the Company Lookup API
+* @return well-formed xml String type
+*/
 
 function call_lookup_stockAPI($url)
 {
-    //initialize curl-object
-    $curl = curl_init($url);
-    //sett up curl's options using option array
-    $options = array(
-        //header => false, result of curl does not contain http-header
-        CURLOPT_HEADER => false,
-        CURLOPT_HTTPGET => true,
-        //CURLINFO_CONTENT_TYPE => 'application/xml',
-        CURLOPT_RETURNTRANSFER => true
-    );
-    // set up options to curl
-    curl_setopt_array($curl, $options);
-    //exec curl
-    $result = curl_exec($curl);
-    //close cURL session and release the connection
-    curl_close($curl);
-    //$xml = simplexml_load_string($result);
-    //echo "<br>-------result from function ------- <br>";
-    //var_dump($xml);
-    return $result;
+//initialize curl-object
+$curl = curl_init($url);
+//sett up curl's options using option array
+$options = array(
+//header => false, result of curl does not contain http-header
+CURLOPT_HEADER => false,
+CURLOPT_HTTPGET => true,
+CURLOPT_RETURNTRANSFER => true
+);
+// set up options to curl
+curl_setopt_array($curl, $options);
+//exec curl
+$result = curl_exec($curl);
+//close cURL session and release the connection
+curl_close($curl);
+
+return $result;
 }
 /*
  * function: construct a string html-table form
@@ -97,7 +56,8 @@ function form_html_table($xml)
     </style>
 
     <?php
-    $table = '<table style=\"width:100%;\">'
+    $table = '<div id="result">';
+    $table .= '<table style=\"width:100%;\">'
         .'<caption>Result of '.$_GET['company'].' '.'</caption>';
     $table .= '<tr>
         <th>Symbol</th>
@@ -109,34 +69,41 @@ function form_html_table($xml)
 
     foreach ($xml->LookupResult as $item)
     {
+        //$href = '\"?get_moreInfo='.$item->Symbol."\"";
+        $href = '"?get_moreInfo='.$item->Symbol."\"";
         $table .= "<tr>
             <th>".$item->Symbol." </th>".
             "<th>".$item->Name."</th>".
             "<th>".$item->Exchange."</th>".
             //"<th> <a href=\"?get_moreInfo=\".$item->Symbol.'>More Info</a>';
             "<th>".
-            '<a href="?get_moreInfo=AAPL"> More Info</a>'.
+            '<a href='.$href.'> More Info</a>'.
             "</th>";
-      //  echo $item->Symbol."<br>";
+        //  echo $item->Symbol."<br>";
 
     }
     $table .= "</table>";
 
-    echo $table;
-}
-/**
- * this function is to check the result.
- * @param $xml = resultant xml from lookup API
- *
- */
-function print_lookup($xml)
-{
-    foreach ($xml->LookupResult AS $item)
-    {
-        echo "Compnay name " .$item->Name ."<br>";
-    }
+    //echo $table;
+    return $table;
+
 }
 
+/**
+ *
+ */
+function make_table_by_Json($json)
+{
+    echo "In function <br>";
+    echo "<br>";
+    echo $json["Symbol"];
+    echo "<br>";
+    echo $json["LastPrice"];
+    echo "<br>";
+    echo $json["Change"];
+    echo "<br>";
+
+}
 /**
  * main
  */
@@ -146,7 +113,17 @@ if(isset($_GET['get_moreInfo']))
     $query = "http://dev.markitondemand.com/MODApis/Api/v2/Quote/json?symbol=".$request_comp;
     echo $query."<br>";
     $result = call_lookup_stockAPI($query);
+    //var_dump($result);
+    $json = json_decode($result, true);
     echo $result;
+    echo $json["Name"];
+    make_table_by_Json($json);
+
+
+
+    ?>
+
+    <?php
 
 
 
@@ -164,17 +141,17 @@ else{
             echo "<br>----- Result ----- <br>";
             //echo $result;
             $xml = new SimpleXMLElement($result);
-            form_html_table($xml);
-
-            print_r($xml);
 
             if($xml != null)
             {
-
-
-
-
-
+                //succeeded to parse xml with SimpleXMLElement
+                $result = form_html_table($xml);
+                echo $result;
+                ?>
+                    <script>
+                        document.getElementById("result").innerHTML="<?php echo $result ?>";
+                    </script>
+                <?php
 
             }
             else
@@ -198,4 +175,60 @@ else{
 }//else(isset($_get['get_moreInfo']))
 
 ?>
+
+
+<!--------HTML---------------------------------------------------------------------------------------------------------->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Stock Search</title>
+
+    <link rel="stylesheet" type="text/css" href="index.css">
+
+</head>
+<body>
+<div class="container">
+
+    <form action="stock.php" method="get" class="stock-form">
+        Company Name Or Symbol:
+        <input type="text" name="company">
+        <br>
+        <input type="submit" name="search" value="Search">
+        <input type="button" name="clear" value="Clear" onclick="reWrite(1);">
+        <input type="button" value="HTMLタグ" onclick="reWrite(1)">
+
+
+    </form>
+</div>
+<div id="result">
+
+</div>
+<script>
+    function clear()
+    {
+        document.getElementById("result").innerHTML = "changed";
+        console.log(document.getElementById("result"));
+
+    }
+    function reWrite(num)
+    {
+        if (document.getElementById)
+        {
+            if (num===0)
+            {
+                document.getElementById("str").textContent="<b>テキスト</b>の書換え";
+            }
+            else
+            {
+                //document.getElementById("result").innerHTML="<b>タグ</b>を含む書換え";
+                document.getElementById("result").innerHTML="Changed";
+            }
+        }
+    }
+
+</script>
+</body>
+</html>
+<!------End of HTML ------------------------------------------------------------------------------------------>
 
