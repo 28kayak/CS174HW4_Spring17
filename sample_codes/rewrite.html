@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form>
+    <input type="button" value="テキスト" onclick="reWrite(0)">
+    <input type="button" value="HTMLタグ" onclick="reWrite(1)">
+</form>
+
+<div id="str">このタグの中身を書き換えます。</div>
+
+<script>
+
+    function reWrite(num)
+    {
+        if (document.getElementById)
+        {
+            if (num==0)
+            {
+                document.getElementById("str").textContent="<b>テキスト</b>の書換え";
+            }
+            else
+            {
+                document.getElementById("str").innerHTML="<b>タグ</b>を含む書換え";
+            }
+        }
+    }
+
+</script>
+</body>
+</html>
