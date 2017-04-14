@@ -17,22 +17,22 @@
 
 function call_lookup_stockAPI($url)
 {
-//initialize curl-object
-$curl = curl_init($url);
-//sett up curl's options using option array
-$options = array(
-CURLOPT_HEADER => false,
-CURLOPT_HTTPGET => true,
-CURLOPT_RETURNTRANSFER => true
-);
-// set up options to curl
-curl_setopt_array($curl, $options);
-//exec curl
-$result = curl_exec($curl);
-//close cURL session and release the connection
-curl_close($curl);
+    //initialize curl-object
+    $curl = curl_init($url);
+    //sett up curl's options using option array
+    $options = array(
+    CURLOPT_HEADER => false,
+    CURLOPT_HTTPGET => true,
+    CURLOPT_RETURNTRANSFER => true
+    );
+    // set up options to curl
+    curl_setopt_array($curl, $options);
+    //exec curl
+    $result = curl_exec($curl);
+    //close cURL session and release the connection
+    curl_close($curl);
 
-return $result;
+    return $result;
 }
 /*
  * function: construct a string html-table form
@@ -200,7 +200,7 @@ if(isset($_GET['get_moreInfo']))
     ?>
 
     <script>
-       document.getElementById("result").innerHTML="<?php echo $table_format ?>";
+       document.getElementById("result").innerHTML="<?= $table_format ?>";
     </script>
     <?php
     }//if($quote_json["status"])
@@ -239,7 +239,8 @@ else{
                 echo $result;//showing table
                 ?>
                     <script>
-                       //document.getElementById("result").innerHTML="<?php echo $result ?>";
+                        document.getElementsByClassName("outcome").innerHTML  = null;
+                       //document.getElementById("result").innerHTML="<?= $result; ?>";
                        //var res = document.getElementById("result");
                        //res.innerHTML = "";
                        //res.parentNode.appendChild()
@@ -290,21 +291,21 @@ else{
         <br>
         <input type="submit" name="search" value="Search">
         <input type="button" name="clear" value="Clear" onclick="clear_table();">
-        <input type="button" value="HTMLタグ" onclick="reWrite(1)">
+
     </form>
 </div>
 
-<div id="result">
+<div id="result" class="outcome">
 
 </div>
 <script>
     function clear_table()
     {
+        //function clear() is reserved, so cannot use
         var res = document.getElementById("result");
         res.innerHTML = "";
         res.parentNode.removeChild(res);
-        //document.getElementById("result").innerHTML = "    ";
-
+        //document.getElementById("result").innerHTML = "    "
        // document.getElementsByTagName("table").innerHTML = null;
         //console.log(document.getElementById("result"));
 

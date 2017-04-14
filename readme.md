@@ -4,6 +4,7 @@
 ### Demonstratioin 
 Access to https://stock-search-cs174.herokuapp.com/
 #### Descprition 
+Git Repo: https://github.com/28kayak/CS174HW4_Spring17  
 `stock.php` --->the entire application for stock search   
 `Sample Data` ---> contains sample data which are retuned from http://dev.markitondemand.com/MODApis/   
 
@@ -23,7 +24,8 @@ Access to https://stock-search-cs174.herokuapp.com/
  - heroku
  - Git 
  - Php Storm 
- - AWS (not ready yet)
+ - AWS (not ready yet)  
+    |- AWS's public domain: http://ec2-34-210-57-7.us-west-2.compute.amazonaws.com  
 
 
 
