@@ -37,7 +37,7 @@ return $result;
 /*
  * function: construct a string html-table form
  * @param $xml = well-formed xml string
- * @return
+ * @return well-formed-html-table string
  * */
 function form_html_table($xml)
 {
@@ -184,6 +184,7 @@ function make_table_by_Json($json)
  */
 if(isset($_GET['get_moreInfo']))
 {
+    //CASE: moreInfo is clicked
     $request_comp = $_GET["get_moreInfo"];
     $query = "http://dev.markitondemand.com/MODApis/Api/v2/Quote/json?symbol=".$request_comp;
     echo $query."<br>";
@@ -196,19 +197,16 @@ if(isset($_GET['get_moreInfo']))
         echo "Retuned Status" .$quote_json["Status"]."<br>";
         $table_format = make_table_by_Json($quote_json);
         echo $table_format;
-
-
     ?>
 
     <script>
-
        document.getElementById("result").innerHTML="<?php echo $table_format ?>";
     </script>
     <?php
     }//if($quote_json["status"])
     else{
         //in the case: the query for more Info fails
-        echo "<h1>Unable to get more information</h1>>";
+        echo "<h1>Unable to get more information</h1>";
     }
 
 
@@ -225,11 +223,11 @@ else{
         if ($_GET["company"] != "")
         {
             $comp_name = $_GET["company"];
-            echo $comp_name . " is a company name <br>";
+            //echo $comp_name . " is a company name <br>";
             $lookup_url = "http://dev.markitondemand.com/MODApis/Api/v2/Lookup/xml?input=".$comp_name;
-            echo "URL: ".$lookup_url."<br>";
+            echo "<p id='result'>Request ed URL: ".$lookup_url."<br> </p>";
             $result = call_lookup_stockAPI($lookup_url);
-            echo "<br>----- Result ----- <br>";
+            //echo "<br>----- Result ----- <br>";
             //echo $result;
             $xml = new SimpleXMLElement($result);
 
@@ -238,10 +236,14 @@ else{
                 //succeeded to parse xml with SimpleXMLElement
                 $result = form_html_table($xml);
 
-                echo $result;
+                echo $result;//showing table
                 ?>
                     <script>
-                        document.getElementById("result").innerHTML="<?php echo $result ?>";
+                       //document.getElementById("result").innerHTML="<?php echo $result ?>";
+                       //var res = document.getElementById("result");
+                       //res.innerHTML = "";
+                       //res.parentNode.appendChild()
+
                     </script>
                 <?php
 
@@ -304,23 +306,8 @@ else{
         //document.getElementById("result").innerHTML = "    ";
 
        // document.getElementsByTagName("table").innerHTML = null;
-        console.log(document.getElementById("result"));
+        //console.log(document.getElementById("result"));
 
-    }
-    function reWrite(num)
-    {
-        if (document.getElementById)
-        {
-            if (num===0)
-            {
-                document.getElementById("str").textContent="<b>テキスト</b>の書換え";
-            }
-            else
-            {
-                //document.getElementById("result").innerHTML="<b>タグ</b>を含む書換え";
-                document.getElementById("result").innerHTML="Changed 111";
-            }
-        }
     }
 
 </script>
