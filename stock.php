@@ -59,7 +59,7 @@ function form_html_table($xml)
 
     <?php
    // $table = '<div id="result">';
-    $table = '<table style=\"width:100%;\">'
+    $table = '<table style=\"width:100%;\" id="result">'
         .'<caption>Result of '.$_GET['company'].' '.'</caption>';
     $table .= '<tr>
         <th>Symbol</th>
@@ -116,7 +116,7 @@ function make_table_by_Json($json)
 
     <?php
    // $table = '<div id="result">';
-    $table = '<table style=\"width:100%;\">'
+    $table = '<table style=\"width:100%;\" id="result">'
         .'<caption>For Additional Information </caption>';
     $table .= '<tr>
         <th>Description</th>
@@ -281,25 +281,29 @@ else{
 </head>
 <body>
 <div class="container">
-    <h1>Stock Search</h1>
+
     <form action="stock.php" method="get" class="stock-form">
         Company Name Or Symbol:
         <input type="text" name="company">
         <br>
         <input type="submit" name="search" value="Search">
-        <input type="button" name="clear" value="Clear" onclick="reWrite(1);">
+        <input type="button" name="clear" value="Clear" onclick="clear_table();">
         <input type="button" value="HTMLタグ" onclick="reWrite(1)">
-
-
     </form>
 </div>
+
 <div id="result">
 
 </div>
 <script>
-    function clear()
+    function clear_table()
     {
-        document.getElementById("result").innerHTML = "changed";
+        var res = document.getElementById("result");
+        res.innerHTML = "";
+        res.parentNode.removeChild(res);
+        //document.getElementById("result").innerHTML = "    ";
+
+       // document.getElementsByTagName("table").innerHTML = null;
         console.log(document.getElementById("result"));
 
     }
